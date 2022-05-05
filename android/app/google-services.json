@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1018830041465",
+    "project_id": "projeto-lps",
+    "storage_bucket": "projeto-lps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1018830041465:android:32419a5e15072a2ff7ffa8",
+        "android_client_info": {
+          "package_name": "pucminas.br.lps_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1018830041465-cl240h13p21v6kp81uco1fukeo4r0f2j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDe7V_RmHGlvkCEZAO1rN9jf_csgHhnBXs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1018830041465-cl240h13p21v6kp81uco1fukeo4r0f2j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

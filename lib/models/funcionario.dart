@@ -2,5 +2,6 @@ class Funcionario{
   String nome;
   String email;
   String senha;
-  String Cargo;
+  bool adm;
+  bool acesso;
 }
