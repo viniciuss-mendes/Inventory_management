@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import'package:lps_app/pages/PaginaLogin.dart';
+import'package:lps_app/pages/pagina_login.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,7 +9,7 @@ void main() async{
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
-      primarySwatch: Colors.amber,
+      primarySwatch: Colors.teal,
       brightness: Brightness.light,
       scaffoldBackgroundColor: Colors.grey[200],
     ),
