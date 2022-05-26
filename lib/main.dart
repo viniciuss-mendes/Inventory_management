@@ -9,7 +9,7 @@ void main() async{
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
-      primarySwatch: Colors.teal,
+      primarySwatch: Colors.deepOrange,
       brightness: Brightness.light,
       scaffoldBackgroundColor: Colors.grey[200],
     ),

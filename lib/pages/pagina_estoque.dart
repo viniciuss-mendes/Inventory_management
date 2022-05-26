@@ -24,7 +24,6 @@ class _PaginaEstoqueState extends State<PaginaEstoque> {
           centerTitle: true,
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.amber,
           child: Icon(Icons.add),
           onPressed: (){
           },
