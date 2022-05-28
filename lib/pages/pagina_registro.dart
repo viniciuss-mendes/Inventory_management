@@ -1,6 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:lps_app/pages/pagina_login.dart';
+import 'CustomShape.dart';
+import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PaginaRegistro extends StatefulWidget {
   @override
@@ -18,9 +23,9 @@ class _PaginaRegistroState extends State<PaginaRegistro> {
 
   final _formKey = GlobalKey<FormState>();
 
-  bool validateAndSave(){
+  bool validateAndSave() {
     final form = _formKey.currentState;
-    if(form.validate()){
+    if (form.validate()) {
       form.save();
       return true;
     }
@@ -28,11 +33,12 @@ class _PaginaRegistroState extends State<PaginaRegistro> {
   }
 
   void validateAndSubmit() async {
-    if(validateAndSave()){
+    if (validateAndSave()) {
       try {
         _email = _controllerEmail.text;
         _senha = _controllerSenha.text;
-        UserCredential user = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _senha);
+        UserCredential user = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: _email, password: _senha);
         print('User created: ${user.user.uid}');
 
         final role = {
@@ -44,95 +50,92 @@ class _PaginaRegistroState extends State<PaginaRegistro> {
 
         showDialog(
             context: context,
-            builder: (context){
+            builder: (context) {
               return creationSuccess();
             });
-
-      } on FirebaseAuthException catch(e) {
-        if (e.code == 'email-already-in-use'){
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'email-already-in-use') {
           showDialog(
               context: context,
-              builder: (context){
+              builder: (context) {
                 return _falha();
               });
         }
-        if (e.code == 'invalid-email'){
+        if (e.code == 'invalid-email') {
           showDialog(
               context: context,
-              builder: (context){
+              builder: (context) {
                 return _falha2();
               });
         }
-        if (e.code == 'weak-password'){
+        if (e.code == 'weak-password') {
           showDialog(
               context: context,
-              builder: (context){
+              builder: (context) {
                 return _falha3();
               });
-        }else{
+        } else {
           print(e);
         }
       }
-
     }
   }
 
-  _falha(){
+  _falha() {
     return AlertDialog(
       title: Text("Erro!"),
       content: Text("Este e-mail já está sendo utilizado!"),
       actions: <Widget>[
         TextButton(
-            onPressed: (){
+            onPressed: () {
               Navigator.pop(context);
             },
-            child: Text("Ok")
-        ),
+            child: Text("Ok")),
       ],
     );
   }
 
-  _falha2(){
+  _falha2() {
     return AlertDialog(
       title: Text("Erro!"),
       content: Text("E-mail mal formatado!"),
       actions: <Widget>[
         TextButton(
-            onPressed: (){
+            onPressed: () {
               Navigator.pop(context);
             },
-            child: Text("Ok")
-        ),
+            child: Text("Ok")),
       ],
     );
   }
 
-  _falha3(){
+  _falha3() {
     return AlertDialog(
       title: Text("Erro!"),
       content: Text("Senha deve ter pelo menos 6 dígitos!"),
       actions: <Widget>[
         TextButton(
-            onPressed: (){
+            onPressed: () {
               Navigator.pop(context);
             },
-            child: Text("Ok")
-        ),
+            child: Text("Ok")),
       ],
     );
   }
 
-  creationSuccess(){
+  creationSuccess() {
     return AlertDialog(
       title: Text("Conta criada"),
       content: Text("Sua conta foi criada com sucesso!"),
       actions: <Widget>[
         TextButton(
-            onPressed: (){
-              Navigator.pop(context);
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PaginaLogin()),
+              );
             },
-            child: Text("Ok")
-        ),
+            child: Text("Ok")),
       ],
     );
   }
@@ -141,27 +144,43 @@ class _PaginaRegistroState extends State<PaginaRegistro> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Registrar"),
-          centerTitle: true,
+          backgroundColor: Color.fromARGB(255, 255, 143, 105),
+          toolbarHeight: 150,
+          elevation: 0.3,
+          flexibleSpace: ClipPath(
+            clipper: Customshape(),
+            child: Container(
+              height: 250,
+              width: MediaQuery.of(context).size.width,
+              color: Color.fromARGB(255, 252, 127, 89),
+              child: Center(
+                  child: Text(
+                "inVentory",
+                style: GoogleFonts.prata(
+                    fontSize: 35, color: Color.fromARGB(255, 255, 206, 190)),
+              )),
+            ),
+          ),
         ),
         body: new Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                Color.fromARGB(255, 255, 143, 105),
+                Color.fromARGB(255, 242, 232, 237),
+              ])),
           padding: EdgeInsets.all(16.0),
           child: new Form(
             key: _formKey,
             child: ListView(
               padding: EdgeInsets.all(16),
               children: <Widget>[
-                new TextFormField(
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                  ),
-                  decoration: InputDecoration(
-                      labelText: "E-mail",
-                      hintText: "Digite o e-mail"
-                  ),
-                  controller: _controllerEmail,
-                  validator: (value) => value.isEmpty ? "Nenhum e-mail fornecido" : null,
+                SizedBox(
+                  width: 128,
+                  height: 128,
+                  child: Image.asset('assets/images/welcome.png'),
                 ),
                 new TextFormField(
                   style: TextStyle(
@@ -169,20 +188,36 @@ class _PaginaRegistroState extends State<PaginaRegistro> {
                     color: Colors.black,
                   ),
                   decoration: InputDecoration(
-                      labelText: "Senha",
-                      hintText: "Crie uma senha"
+                      labelText: "E-mail", hintText: "Digite o e-mail"),
+                  controller: _controllerEmail,
+                  validator: (value) =>
+                      value.isEmpty ? "Nenhum e-mail fornecido" : null,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                new TextFormField(
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black,
                   ),
+                  decoration: InputDecoration(
+                      labelText: "Senha", hintText: "Crie uma senha"),
                   obscureText: true,
                   controller: _controllerSenha,
-                  validator: (value){
-                    if(value.isEmpty){
+                  validator: (value) {
+                    if (value.isEmpty) {
                       return "Digite a senha ";
                     }
-                    if(_controllerSenhaConfirma.text != _controllerSenha.text){
+                    if (_controllerSenhaConfirma.text !=
+                        _controllerSenha.text) {
                       return "As senhas devem ser iguais";
                     }
                     return null;
                   },
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 new TextFormField(
                   style: TextStyle(
@@ -191,34 +226,69 @@ class _PaginaRegistroState extends State<PaginaRegistro> {
                   ),
                   decoration: InputDecoration(
                       labelText: "Confirmar senha",
-                      hintText: "Digite a senha novamente"
-                  ),
+                      hintText: "Digite a senha novamente"),
                   obscureText: true,
                   controller: _controllerSenhaConfirma,
-                  validator: (value){
-                    if(value.isEmpty){
+                  validator: (value) {
+                    if (value.isEmpty) {
                       return "Digite a senha ";
                     }
-                    if(_controllerSenhaConfirma.text != _controllerSenha.text){
+                    if (_controllerSenhaConfirma.text !=
+                        _controllerSenha.text) {
                       return "As senhas devem ser iguais";
                     }
                     return null;
                   },
                 ),
-                new ElevatedButton(
-                  child: Text(
-                    "Confirmar",
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white
+                SizedBox(
+                  height: 35,
+                ),
+                Container(
+                  height: 60,
+                  alignment: Alignment.centerLeft,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      stops: [0.3, 1],
+                      colors: [
+                        Color.fromARGB(255, 240, 81, 17),
+                        Color.fromARGB(255, 237, 212, 134),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(5),
                     ),
                   ),
-                  onPressed: validateAndSubmit,
+                  child: SizedBox.expand(
+                    child: CupertinoButton(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              "Cadastrar",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                            Container(
+                              child: SizedBox(
+                                child: Image.asset('assets/images/check.png'),
+                                height: 28,
+                                width: 28,
+                              ),
+                            )
+                          ],
+                        ),
+                        onPressed: validateAndSubmit),
+                  ),
                 ),
               ],
             ),
           ),
-        )
-    );
+        ));
   }
 }
