@@ -15,10 +15,13 @@ class PaginaRegistro extends StatefulWidget {
 class _PaginaRegistroState extends State<PaginaRegistro> {
   String _email;
   String _senha;
+  String _nome;
 
   TextEditingController _controllerEmail = TextEditingController();
   TextEditingController _controllerSenha = TextEditingController();
   TextEditingController _controllerSenhaConfirma = TextEditingController();
+  TextEditingController _controllerNome = TextEditingController();
+
   FirebaseFirestore db = FirebaseFirestore.instance;
 
   final _formKey = GlobalKey<FormState>();
@@ -37,13 +40,15 @@ class _PaginaRegistroState extends State<PaginaRegistro> {
       try {
         _email = _controllerEmail.text;
         _senha = _controllerSenha.text;
+        _nome = _controllerNome.text;
         UserCredential user = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: _email, password: _senha);
         print('User created: ${user.user.uid}');
 
         final role = {
-          "role": "none",
+          "role": "Aguardando permissão",
           "email": "$_email",
+          "nome": "$_nome"
         };
 
         db.collection("users").doc(user.user.uid).set(role);
@@ -236,6 +241,26 @@ class _PaginaRegistroState extends State<PaginaRegistro> {
                     if (_controllerSenhaConfirma.text !=
                         _controllerSenha.text) {
                       return "As senhas devem ser iguais";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                new TextFormField(
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black,
+                  ),
+                  decoration: InputDecoration(
+                      labelText: "Nome",
+                      hintText: "Digite seu nome"
+                  ),
+                  controller: _controllerNome,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return "Digite a senha ";
                     }
                     return null;
                   },

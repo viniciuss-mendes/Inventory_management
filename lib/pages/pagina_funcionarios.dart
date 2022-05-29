@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'pagina_user.dart';
 
 class PaginaFuncionarios extends StatefulWidget {
   @override
@@ -14,7 +15,7 @@ class _PaginaFuncionariosState extends State<PaginaFuncionarios> {
 
     FirebaseFirestore db = FirebaseFirestore.instance;
     var snap = db.collection("users")
-        .where("role", whereIn: ["none", "funcionario"])
+        .where("role", whereIn: ["Aguardando permissão", "Funcionário"])
         .snapshots();
 
     return Scaffold(
@@ -44,9 +45,15 @@ class _PaginaFuncionariosState extends State<PaginaFuncionarios> {
                 itemCount: snapshot.data.docs.length,
                 itemBuilder: (BuildContext context, int i){
                   var item = snapshot.data.docs[i];
-                  CollectionReference users = FirebaseFirestore.instance.collection('users');
                   return GestureDetector(
                     onTap: (){
+                      print(item.id);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PaginaUser(idContato: item.id)
+                        ),
+                      );
                     },
                     child: Card(
                       child: Padding(padding: EdgeInsets.all(10.0),

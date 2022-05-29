@@ -122,13 +122,13 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
   }
 
   List<Widget> buildPageButtons(Map<String, dynamic> data) {
-    if (data["role"] == "admin") {
+    if (data["role"] == "Administrador") {
       return <Widget>[
         botaoGerenciarEstoque(),
         botaoGerenciarFuncionarios(),
       ];
     } else {
-      if (data['role'] == 'funcionario') {
+      if (data['role'] == 'Funcionário') {
         return <Widget>[
           botaoGerenciarEstoque(),
         ];
