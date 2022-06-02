@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lps_app/pages/pagina_adicionar_produto.dart';
 
 class PaginaEstoque extends StatefulWidget {
   @override
@@ -15,7 +16,6 @@ class _PaginaEstoqueState extends State<PaginaEstoque> {
 
     FirebaseFirestore db = FirebaseFirestore.instance;
     var snap = db.collection("estoque")
-        .where('excluido', isEqualTo: false)
         .snapshots();
 
     return Scaffold(
@@ -26,6 +26,12 @@ class _PaginaEstoqueState extends State<PaginaEstoque> {
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => pagina_adicionar_produto()
+              ),
+            );
           },
         ),
         body: StreamBuilder(
@@ -56,6 +62,69 @@ class _PaginaEstoqueState extends State<PaginaEstoque> {
                     },
                     child: Card(
                       child: Padding(padding: EdgeInsets.all(10.0),
+                        child: Row(
+                          children: <Widget>[
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: <Widget>[
+                                Text(
+                                  "Nome: ",
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                                Text(
+                                  "Setor: ",
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                                Text(
+                                  "Lote: ",
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                                Text(
+                                  "Quantidade: ",
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                                Text(
+                                  "Fabricação: ",
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                                Text(
+                                  "Validade: ",
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                              ],
+                            ),
+                            Padding(padding: EdgeInsets.only(left: 12)),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  item['nome'],
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                                Text(
+                                  item['setor'],
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                                Text(
+                                  item['lote'].toString(),
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                                Text(
+                                  item['quantidade'].toString(),
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                                Text(
+                                  item['fabricacao'].toDate().toString(),
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                                Text(
+                                  item['validade'].toDate().toString(),
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );

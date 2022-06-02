@@ -15,8 +15,8 @@ class _PaginaUserState extends State<PaginaUser> {
   Widget build(BuildContext context) {
 
     CollectionReference users = FirebaseFirestore.instance.collection('users');
-    bool value1 = false;
-    bool value2 = true;
+    bool value1 = true;
+    bool value2 = false;
 
 
     return FutureBuilder<DocumentSnapshot>(
